@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARTICLE TITLE — Crucible / Inference Foundry</title>
+  <link rel="stylesheet" href="../css/site.css" />
+
+  <!-- MathJax v3 — LaTeX rendering. Do not remove or replace.
+       NOTE: Replace the integrity hash below with the SHA-384 SRI hash for the
+       pinned MathJax version you deploy. Compute with:
+         curl -sL https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js \
+           | openssl dgst -sha384 -binary | openssl base64 -A
+       Then set: integrity="sha384-<computed-hash>"
+  -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        tags: 'ams',
+        macros: {
+          R: '\\mathbb{R}',
+          N: '\\mathbb{N}',
+          Z: '\\mathbb{Z}',
+          softmax: '\\operatorname{softmax}',
+          relu: '\\operatorname{ReLU}',
+          gelu: '\\operatorname{GELU}',
+        }
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js" crossorigin="anonymous" async></script>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../index.html" class="site-logo">CRUCIBLE</a>
+  <span class="site-tagline">// Inference Foundry Research Journal</span>
+</header>
+
+<main class="article-container">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       ARTICLE METADATA BLOCK
+       Fill all fields. Leave none blank.
+  ══════════════════════════════════════════════════════════════════ -->
+  <article>
+    <header class="article-header">
+      <div class="article-meta-line">
+        <span class="article-type">[TEARDOWN]</span><!-- or [BENCHMARK] or [ANALYSIS] -->
+        <span class="article-date">YYYY-MM-DD</span>
+        <span class="article-status status-wip">WIP</span><!-- WIP | COMPLETE | DRAFT -->
+      </div>
+
+      <h1 class="article-title">Paper Title: Subtitle if Applicable</h1>
+      <p class="article-subtitle">Full citation: Author(s), "Paper Title," Conference/Journal, Year. arXiv:XXXX.XXXXX</p>
+
+      <div class="article-tags">
+        <span class="tag">LLM</span><!-- Add relevant tags: LLM, Vision, Hardware-Level, Math, SSM, MoE, etc. -->
+      </div>
+
+      <div class="article-authors">
+        <strong>Teardown by:</strong> Author Name, Inference Foundry Core Team
+      </div>
+
+      <div class="profiling-hardware">
+        <strong>Profiling hardware:</strong>
+        <code>NVIDIA H100 SXM5 80GB · CUDA 12.4 · PyTorch 2.4.0+cu124</code>
+      </div>
+    </header>
+
+    <!-- ─────────────────────────────────────────────────────────────
+         SECTION 1: ABSTRACT
+         ≤ 250 words. No equations. No citations.
+         Summarize: what was measured and the three key findings.
+    ──────────────────────────────────────────────────────────────── -->
+    <section id="abstract">
+      <h2>Abstract</h2>
+      <p>
+        <!-- Write abstract here. No LaTeX in this section. No citations.
+             State clearly: (1) what operation or architecture is analyzed,
+             (2) the three most significant measured findings, and
+             (3) the practical implication for inference system design. -->
+        REPLACE WITH ABSTRACT TEXT.
+      </p>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────────
+         SECTION 2: BACKGROUND
+         Define all mathematical symbols used in this article.
+         Provide prerequisite context for the reader.
+    ──────────────────────────────────────────────────────────────── -->
+    <section id="background">
+      <h2>Background</h2>
+
+      <h3>Notation</h3>
+      <p>Throughout this article the following notation is used consistently:</p>
+      <ul class="notation-list">
+        <li>\( N \) — sequence length (number of tokens)</li>
+        <li>\( d_{\text{model}} \) — model hidden dimension</li>
+        <li>\( d_k \) — attention key/query projection dimension</li>
+        <li>\( d_v \) — attention value projection dimension</li>
+        <li>\( H \) — number of attention heads</li>
+        <li>\( B \) — batch size</li>
+        <!-- Add all symbols used in this article -->
+      </ul>
+
+      <h3>Prerequisites</h3>
+      <p>
+        <!-- Briefly state what background knowledge is assumed.
+             E.g.: "The reader is assumed to be familiar with the transformer
+             architecture [1], CUDA memory hierarchy [2], and the roofline
+             performance model [3]." -->
+        REPLACE WITH PREREQUISITES TEXT.
+      </p>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────────
+         SECTION 3: MATHEMATICAL DECONSTRUCTION
+         REQUIRED. Full derivation chain from paper equations to
+         implementation-level operations.
+         All equations must use LaTeX via MathJax.
+    ──────────────────────────────────────────────────────────────── -->
+    <section id="mathematical-deconstruction">
+      <h2>Mathematical Deconstruction</h2>
+
+      <h3>3.1 Core Formulation</h3>
+      <p>
+        <!-- State the primary mathematical operation being analyzed. -->
+        REPLACE WITH TEXT. Example structure below — delete before submitting.
+      </p>
+
+      <!-- EXAMPLE: Scaled Dot-Product Attention -->
+      <!-- Delete this example block and replace with the actual paper's equations -->
+      <p>The scaled dot-product attention mechanism is defined as:</p>
+      \[
+        \text{Attention}(Q, K, V)
+          = \softmax\!\left(\frac{QK^\top}{\sqrt{d_k}}\right)V
+          \quad \in \R^{N \times d_v}
+        \tag{1}
+      \]
+      <p>
+        where \( Q \in \R^{N \times d_k} \), \( K \in \R^{N \times d_k} \),
+        \( V \in \R^{N \times d_v} \) are the query, key, and value matrices respectively.
+      </p>
+
+      <h3>3.2 Complexity Analysis</h3>
+      <p>
+        <!-- Derive the computational and memory complexity from first principles.
+             Use Landau notation. State what each variable represents. -->
+        REPLACE WITH COMPLEXITY ANALYSIS.
+      </p>
+
+      <p>The naive attention algorithm requires:</p>
+      <ul>
+        <li>Compute: \( O(N^2 d_k + N^2 d_v) \) floating-point operations</li>
+        <li>Memory: \( O(N^2) \) for the attention weight matrix \( S = QK^\top / \sqrt{d_k} \)</li>
+      </ul>
+
+      <h3>3.3 Key Algorithmic Changes</h3>
+      <p>
+        <!-- Describe and derive the key algorithmic innovations in the paper.
+             Show each modification with its mathematical justification. -->
+        REPLACE WITH ALGORITHMIC ANALYSIS.
+      </p>
+
+      <h3>3.4 Numerical Stability Considerations</h3>
+      <p>
+        <!-- Analyze any numerical stability techniques: log-sum-exp tricks,
+             mixed precision considerations, overflow/underflow risks. -->
+        REPLACE WITH NUMERICAL ANALYSIS.
+      </p>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────────
+         SECTION 4: HARDWARE PROFILING
+         REQUIRED. All measurements must be real.
+         No estimated or theoretically derived substitutes.
+    ──────────────────────────────────────────────────────────────── -->
+    <section id="hardware-profiling">
+      <h2>Hardware Profiling</h2>
+
+      <div class="profiling-env-box">
+        <h3>Profiling Environment</h3>
+        <pre><code data-lang="text">GPU Model:          NVIDIA H100 SXM5 80GB
+GPU Firmware:       96.00.74.00.01
+CUDA Version:       12.4
+cuDNN Version:      9.1.0
+Driver Version:     550.54.15
+OS:                 Ubuntu 22.04.4 LTS
+Kernel:             6.5.0-28-generic
+CPU:                Intel Xeon Platinum 8480+
+RAM:                2048 GiB DDR5 ECC
+PyTorch Version:    2.4.0+cu124
+Triton Version:     3.0.0</code></pre>
+        <p>
+          Full environment spec and raw CSV data:
+          <a href="../data/PAPER-SLUG/env-HARDWARE-SLUG.txt"><code>data/PAPER-SLUG/env-HARDWARE-SLUG.txt</code></a>
+        </p>
+      </div>
+
+      <h3>4.1 VRAM Consumption</h3>
+      <p>
+        <!-- Report peak and average VRAM at multiple batch sizes and sequence lengths.
+             Data must come from nvidia-smi, nvml, or torch.cuda.max_memory_allocated(). -->
+        REPLACE WITH VRAM ANALYSIS. Include the table below populated with real data.
+      </p>
+
+      <div class="table-wrapper">
+        <table class="profiling-table">
+          <caption>Peak VRAM consumption (MiB) — measured with <code>torch.cuda.max_memory_allocated()</code></caption>
+          <thead>
+            <tr>
+              <th>Batch Size</th>
+              <th>Seq Len 256</th>
+              <th>Seq Len 1024</th>
+              <th>Seq Len 4096</th>
+              <th>Seq Len 8192</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td>  <td>XXXX</td><td>XXXX</td><td>XXXX</td><td>XXXX</td></tr>
+            <tr><td>8</td>  <td>XXXX</td><td>XXXX</td><td>XXXX</td><td>XXXX</td></tr>
+            <tr><td>32</td> <td>XXXX</td><td>XXXX</td><td>XXXX</td><td>XXXX</td></tr>
+            <tr><td>128</td><td>XXXX</td><td>XXXX</td><td>XXXX</td><td>OOM</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>4.2 Time-to-First-Token (TTFT)</h3>
+      <p>
+        <!-- Report TTFT in milliseconds at multiple batch sizes.
+             Describe warmup methodology (number of warmup iterations discarded). -->
+        REPLACE WITH TTFT ANALYSIS. 10 warmup runs discarded; median of 100 timed runs reported.
+      </p>
+
+      <div class="table-wrapper">
+        <table class="profiling-table">
+          <caption>Time-to-First-Token (ms) — median of 100 runs, 10 warmup runs discarded</caption>
+          <thead>
+            <tr>
+              <th>Batch Size</th>
+              <th>Seq Len 256</th>
+              <th>Seq Len 1024</th>
+              <th>Seq Len 4096</th>
+              <th>Seq Len 8192</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td>  <td>XX.X</td><td>XX.X</td><td>XXX.X</td><td>XXXX.X</td></tr>
+            <tr><td>8</td>  <td>XX.X</td><td>XX.X</td><td>XXX.X</td><td>XXXX.X</td></tr>
+            <tr><td>32</td> <td>XX.X</td><td>XX.X</td><td>XXX.X</td><td>XXXX.X</td></tr>
+            <tr><td>128</td><td>XX.X</td><td>XX.X</td><td>XXX.X</td><td>OOM</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>4.3 Decode Throughput</h3>
+      <p>
+        <!-- Report tokens/sec at multiple configurations. -->
+        REPLACE WITH THROUGHPUT DATA.
+      </p>
+
+      <h3>4.4 Kernel-Level Profiling</h3>
+      <p>
+        <!-- Report SM occupancy, HBM bandwidth utilization, and kernel execution
+             times from nsys / ncu. Required for any kernel-level claim. -->
+        REPLACE WITH KERNEL PROFILING DATA.
+      </p>
+
+      <div class="table-wrapper">
+        <table class="profiling-table">
+          <caption>Nsight Compute metrics — seq_len=4096, batch_size=1, BF16</caption>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Measured Value</th>
+              <th>Peak Theoretical</th>
+              <th>Utilization (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>SM Occupancy</td>
+              <td>XX warps/SM</td>
+              <td>64 warps/SM (H100)</td>
+              <td>XX%</td>
+            </tr>
+            <tr>
+              <td>HBM Bandwidth</td>
+              <td>X.XX TB/s</td>
+              <td>3.35 TB/s (H100 SXM5)</td>
+              <td>XX%</td>
+            </tr>
+            <tr>
+              <td>FLOP/s (BF16 Tensor)</td>
+              <td>X.XX PFLOP/s</td>
+              <td>989 TFLOP/s (H100 SXM5)</td>
+              <td>XX%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CGo / FFI section — delete this block if not applicable -->
+      <h3>4.5 CGo / FFI Bridging Overhead</h3>
+      <p>
+        <!-- Required only if the implementation uses CGo or FFI. -->
+        REPLACE WITH CGo PROFILING DATA, or delete section if not applicable.
+      </p>
+
+      <pre><code data-lang="text">$ go test -bench=BenchmarkCGoCall -benchmem -count=10 ./...
+BenchmarkCGoCall-64    1000000    1143 ns/op    0 B/op    0 allocs/op</code></pre>
+
+      <p>
+        Raw benchmark data and <code>pprof</code> flame graph:
+        <a href="../data/PAPER-SLUG/cgo-bench.txt"><code>data/PAPER-SLUG/cgo-bench.txt</code></a>
+      </p>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────────
+         SECTION 5: ARCHITECTURAL BOTTLENECKS
+         REQUIRED. Roofline analysis and bottleneck classification.
+    ──────────────────────────────────────────────────────────────── -->
+    <section id="architectural-bottlenecks">
+      <h2>Architectural Bottlenecks</h2>
+
+      <h3>5.1 Roofline Analysis</h3>
+      <p>
+        <!-- Derive the arithmetic intensity of each key kernel.
+             Show measured position on the roofline model.
+             Must use ncu data, not theoretical estimates. -->
+        REPLACE WITH ROOFLINE ANALYSIS.
+      </p>
+
+      <p>
+        The arithmetic intensity of the attention GEMM is computed as:
+        \[
+          I = \frac{\text{FLOP}}{\text{bytes transferred}}
+            = \frac{2 \cdot N^2 \cdot d_k}{(2 N d_k + 2 N d_k + 4 N^2) \cdot \text{sizeof}(\text{dtype})}
+        \]
+      </p>
+
+      <p>
+        Roofline plot (generated from <code>ncu</code> data, script at
+        <a href="../data/PAPER-SLUG/plot.py"><code>data/PAPER-SLUG/plot.py</code></a>):
+      </p>
+      <!-- Insert roofline plot image here -->
+      <figure>
+        <img src="../data/PAPER-SLUG/roofline.png" alt="Roofline plot for PAPER kernel on H100 SXM5" />
+        <figcaption>Roofline model — PAPER kernel, H100 SXM5, BF16. Measured point shown in red.</figcaption>
+      </figure>
+
+      <h3>5.2 Identified Bottlenecks</h3>
+      <p>REPLACE WITH BOTTLENECK ANALYSIS.</p>
+
+      <div class="table-wrapper">
+        <table class="profiling-table">
+          <caption>Bottleneck classification by operating regime</caption>
+          <thead>
+            <tr>
+              <th>Regime</th>
+              <th>Class</th>
+              <th>Limiting Resource</th>
+              <th>Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Short seq (N ≤ 512)</td>
+              <td><span class="bottleneck-tag latency">LATENCY-BOUND</span></td>
+              <td>Kernel launch overhead</td>
+              <td>nsys timeline: kernel gap &gt; kernel runtime</td>
+            </tr>
+            <tr>
+              <td>Long seq (N ≥ 4096)</td>
+              <td><span class="bottleneck-tag memory">MEMORY-BOUND</span></td>
+              <td>HBM bandwidth</td>
+              <td>I &lt; ridge point; HBM util = XX%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>5.3 Optimization Hypotheses</h3>
+      <p>
+        <!-- State concrete, testable hypotheses for further optimization.
+             Each hypothesis must reference a specific bottleneck from §5.2. -->
+        REPLACE WITH OPTIMIZATION HYPOTHESES.
+      </p>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────────
+         SECTION 6: REPRODUCTION NOTES
+         Full instructions to reproduce all profiling results.
+    ──────────────────────────────────────────────────────────────── -->
+    <section id="reproduction-notes">
+      <h2>Reproduction Notes</h2>
+
+      <h3>6.1 Environment Setup</h3>
+      <pre><code data-lang="bash"># Clone the repository and install dependencies
+git clone https://github.com/Inference-Foundry/Crucible.git
+cd Crucible
+
+# Install Python dependencies (all standard library or widely-used packages only)
+pip install torch==2.4.0+cu124 --index-url https://download.pytorch.org/whl/cu124
+pip install pandas matplotlib</code></pre>
+
+      <h3>6.2 Running the Profiling Suite</h3>
+      <pre><code data-lang="bash"># VRAM and throughput sweep
+python data/PAPER-SLUG/profile_vram.py --device cuda --dtype bf16
+
+# Nsight Compute kernel profiling (requires sudo or nsight compute permissions)
+ncu --metrics sm__warps_active.avg.pct_of_peak_sustained_active,\
+dram__bytes.sum,l1tex__t_bytes.sum \
+--export data/PAPER-SLUG/ncu-report \
+python data/PAPER-SLUG/run_kernel.py</code></pre>
+
+      <h3>6.3 Known Failure Modes</h3>
+      <ul>
+        <li>
+          <!-- List any known environment-specific failure modes.
+               E.g.: "OOM at batch_size=128, seq_len≥8192 on GPUs with <80GB VRAM." -->
+          REPLACE WITH KNOWN ISSUES.
+        </li>
+      </ul>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────────
+         SECTION 7: REFERENCES
+         IEEE-style numbered citation list.
+         Blog posts and tweets are not acceptable sources.
+    ──────────────────────────────────────────────────────────────── -->
+    <section id="references">
+      <h2>References</h2>
+      <ol class="reference-list">
+        <li id="ref-1">
+          A. Author, B. Author, "Paper Title," in <em>Proceedings of the Conference Name (CONFNAME)</em>,
+          City, Country, Year, pp. XX–XX. [Online]. Available: <a href="https://arxiv.org/abs/XXXX.XXXXX">arXiv:XXXX.XXXXX</a>
+        </li>
+        <!-- Add all references in IEEE style -->
+      </ol>
+    </section>
+
+  </article>
+</main>
+
+<footer class="site-footer">
+  <p>
+    Crucible — Inference Foundry Research Journal.
+    Content licensed under <a href="../LICENSE">the repository license</a>.
+    Generated statically. No trackers. No cookies.
+  </p>
+</footer>
+
+</body>
+</html>
