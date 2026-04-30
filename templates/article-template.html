@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1e3a5f" />
   <title>ARTICLE TITLE — Crucible / Inference Foundry</title>
+  <link rel="icon" type="image/jpeg" href="../assets/images/inference-foundry-logo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/site.css" />
 
   <!-- MathJax v3 — LaTeX rendering. Do not remove or replace.
@@ -36,13 +41,27 @@
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js" crossorigin="anonymous" async></script>
 </head>
 <body>
+<a class="skip-link" href="#article-main">Skip to article</a>
 
 <header class="site-header">
-  <a href="../index.html" class="site-logo">CRUCIBLE</a>
-  <span class="site-tagline">// Inference Foundry Research Journal</span>
+  <div class="header-inner">
+    <a class="brand" href="../index.html">
+      <img class="brand__logo" src="../assets/images/inference-foundry-logo.jpg" width="40" height="40" alt="" decoding="async" />
+      <span class="brand__text">
+        <span class="brand__name">Crucible</span>
+        <span class="brand__tag">Inference Foundry · Research journal</span>
+      </span>
+    </a>
+    <nav class="header-links" aria-label="Site">
+      <a href="../index.html">Journal home</a>
+      <a href="https://inference-foundry.github.io/">Organization</a>
+      <a href="https://github.com/Inference-Foundry/Crucible">GitHub</a>
+      <a class="btn-nav" href="https://discord.gg/inference-foundry" target="_blank" rel="noopener noreferrer">Discord</a>
+    </nav>
+  </div>
 </header>
 
-<main class="article-container">
+<main class="article-container" id="article-main">
 
   <!-- ═══════════════════════════════════════════════════════════════
        ARTICLE METADATA BLOCK
@@ -450,11 +469,18 @@ python data/PAPER-SLUG/run_kernel.py</code></pre>
 </main>
 
 <footer class="site-footer">
-  <p>
-    Crucible — Inference Foundry Research Journal.
-    Content licensed under <a href="../LICENSE">the repository license</a>.
-    Generated statically. No trackers. No cookies.
-  </p>
+  <div class="footer-inner">
+    <p>
+      <strong>Crucible</strong> — Inference Foundry Research Journal.
+      Content licensed under <a href="../LICENSE">the repository license</a>.
+      Static site — no third-party analytics on this page.
+    </p>
+    <p>
+      <a href="../index.html">Journal home</a>
+      · <a href="https://github.com/Inference-Foundry/Crucible/blob/main/CONTENT_GUIDE.md">Content guide</a>
+      · <a href="https://inference-foundry.github.io/">Organization site</a>
+    </p>
+  </div>
 </footer>
 
 </body>

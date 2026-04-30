@@ -1,70 +1,93 @@
 /**
- * content-filter.js — Crucible / Inference Foundry Research Journal
- *
- * Vanilla JS tag-based article filter for index.html.
- * Zero dependencies. No frameworks. No build step.
- *
- * How it works:
- *   - Each <article> card on the page carries a data-tags attribute
- *     with space-separated tag names, e.g.:  data-tags="LLM Hardware-Level Math"
- *   - Filter buttons in #filter-controls carry data-tag attributes.
- *   - Clicking a button shows only cards whose data-tags includes the
- *     selected tag, or all cards when the "all" button is active.
- *   - The active button class and the hidden attribute on cards are
- *     managed directly; no class-toggling libraries needed.
+ * Crucible — tag + text filters, URL hash, accessibility announcements,
+ * back-to-top control. Vanilla JS, no dependencies.
  */
-
 (function () {
   'use strict';
 
-  /** @type {HTMLElement|null} */
   var filterControls = document.getElementById('filter-controls');
-
-  /** @type {HTMLElement|null} */
   var noResultsEl = document.getElementById('no-results');
+  var searchInput = document.getElementById('article-search');
+  var resultsAnnouncement = document.getElementById('filter-results-announcement');
+  var backToTopBtn = document.getElementById('back-to-top');
 
-  // Guard: if the filter bar is absent (e.g., article pages), do nothing.
+  /** Debounced search timer */
+  var searchTimer = null;
+
+  /** @type {string} */
+  var currentTag = 'all';
+
+  /** @type {string} */
+  var currentSearch = '';
+
   if (!filterControls) return;
 
-  /** @type {NodeListOf<HTMLButtonElement>} */
   var buttons = filterControls.querySelectorAll('.filter-btn');
 
-  /**
-   * All article cards on the page.
-   * We query lazily so any cards added dynamically are included.
-   * @returns {HTMLCollectionOf<Element>}
-   */
   function getCards() {
     return document.getElementsByClassName('article-card');
   }
 
-  /**
-   * Parse the space-separated data-tags attribute of a card element
-   * into an array of tag strings (lowercase-normalised for comparison).
-   *
-   * @param {HTMLElement} card
-   * @returns {string[]}
-   */
   function parseTags(card) {
     var raw = card.getAttribute('data-tags');
     if (!raw) return [];
-    return raw.split(/\s+/).map(function (t) { return t.toLowerCase(); });
+    return raw.split(/\s+/).map(function (t) {
+      return t.toLowerCase();
+    });
   }
 
   /**
-   * Apply the given tag filter to all cards.
-   * Hides cards that don't match and shows those that do.
-   * Also toggles the "no results" message.
-   *
-   * @param {string} tag — lowercase tag name, or 'all' to show everything
+   * Concatenate searchable text from a card.
+   * @param {HTMLElement} card
    */
-  function applyFilter(tag) {
+  function getSearchBlob(card) {
+    var title = card.querySelector('.card-title');
+    var cite = card.querySelector('.card-citation');
+    var summary = card.querySelector('.card-summary');
+    var parts = [];
+    if (title) parts.push(title.textContent || '');
+    if (cite) parts.push(cite.textContent || '');
+    if (summary) parts.push(summary.textContent || '');
+    return parts.join(' ').toLowerCase();
+  }
+
+  function matchesSearch(card, query) {
+    if (!query || !query.trim()) return true;
+    var q = query.trim().toLowerCase();
+    return getSearchBlob(card).indexOf(q) !== -1;
+  }
+
+  function matchesTag(card, tag) {
+    if (tag === 'all') return true;
+    return parseTags(card).indexOf(tag.toLowerCase()) !== -1;
+  }
+
+  function updateAnnouncement(visibleCount, totalCards) {
+    if (!resultsAnnouncement) return;
+    var parts = [];
+    parts.push(visibleCount + ' of ' + totalCards + ' articles visible');
+    if (currentSearch.trim()) {
+      parts.push('search: “' + currentSearch.trim() + '”');
+    }
+    if (currentTag !== 'all') {
+      parts.push('topic: ' + currentTag);
+    }
+    resultsAnnouncement.textContent = parts.join(' · ');
+  }
+
+  /**
+   * Apply tag + search together.
+   */
+  function applyFilters() {
     var cards = getCards();
     var visibleCount = 0;
+    var totalCards = cards.length;
 
     for (var i = 0; i < cards.length; i++) {
       var card = /** @type {HTMLElement} */ (cards[i]);
-      var show = (tag === 'all') || parseTags(card).indexOf(tag.toLowerCase()) !== -1;
+      var okTag = matchesTag(card, currentTag);
+      var okSearch = matchesSearch(card, currentSearch);
+      var show = okTag && okSearch;
 
       if (show) {
         card.removeAttribute('hidden');
@@ -74,10 +97,8 @@
       }
     }
 
-    // Show/hide the listing-group headings if all their children are hidden.
     toggleEmptyGroups();
 
-    // Show no-results message when nothing is visible.
     if (noResultsEl) {
       if (visibleCount === 0) {
         noResultsEl.removeAttribute('hidden');
@@ -85,12 +106,11 @@
         noResultsEl.setAttribute('hidden', '');
       }
     }
+
+    updateAnnouncement(visibleCount, totalCards);
+    syncLocationHash();
   }
 
-  /**
-   * Hide a .listing-group entirely if none of its article cards are visible.
-   * This avoids orphaned section headings when filtering.
-   */
   function toggleEmptyGroups() {
     var groups = document.getElementsByClassName('listing-group');
     for (var g = 0; g < groups.length; g++) {
@@ -113,12 +133,6 @@
     }
   }
 
-  /**
-   * Update the active visual state of filter buttons.
-   * Only one button should be active at a time.
-   *
-   * @param {HTMLButtonElement} activeButton
-   */
   function setActiveButton(activeButton) {
     for (var i = 0; i < buttons.length; i++) {
       buttons[i].classList.remove('active');
@@ -128,58 +142,108 @@
     activeButton.setAttribute('aria-pressed', 'true');
   }
 
-  /**
-   * Handle a filter button click.
-   * @param {Event} event
-   */
-  function onButtonClick(event) {
-    var btn = /** @type {HTMLButtonElement} */ (event.currentTarget);
-    var tag = btn.getAttribute('data-tag') || 'all';
+  function syncLocationHash() {
+    if (!window.history || !window.history.replaceState) return;
 
-    setActiveButton(btn);
-    applyFilter(tag);
-
-    // Update the URL hash so the filter state is bookmarkable / shareable.
-    // Use replaceState to avoid polluting browser history with filter clicks.
-    // Only the hash fragment is modified — the origin and pathname are unchanged.
-    if (window.history && window.history.replaceState) {
-      var newHash = tag === 'all' ? '' : '#filter=' + encodeURIComponent(tag);
-      window.history.replaceState(null, '', newHash || window.location.pathname);
+    var params = [];
+    if (currentTag !== 'all') {
+      params.push('filter=' + encodeURIComponent(currentTag));
     }
+    if (currentSearch.trim()) {
+      params.push('q=' + encodeURIComponent(currentSearch.trim()));
+    }
+
+    var hash = params.length ? '#' + params.join('&') : '';
+    window.history.replaceState(null, '', window.location.pathname + hash);
   }
 
-  /**
-   * Read the URL hash on page load and restore the filter state if present.
-   * Format: #filter=TagName
-   */
-  function restoreFilterFromHash() {
-    var hash = window.location.hash; // e.g. "#filter=LLM"
+  function parseHash() {
+    var hash = window.location.hash.slice(1);
     if (!hash) return;
 
-    var match = hash.match(/^#filter=(.+)$/);
-    if (!match) return;
-
-    var tag = decodeURIComponent(match[1]);
-
-    // Find the corresponding button and activate it.
-    for (var i = 0; i < buttons.length; i++) {
-      if ((buttons[i].getAttribute('data-tag') || '').toLowerCase() === tag.toLowerCase()) {
-        setActiveButton(buttons[i]);
-        applyFilter(tag);
-        return;
+    var parts = hash.split('&');
+    for (var i = 0; i < parts.length; i++) {
+      var seg = parts[i];
+      var eq = seg.indexOf('=');
+      if (eq === -1) continue;
+      var key = seg.slice(0, eq);
+      var val = decodeURIComponent(seg.slice(eq + 1));
+      if (key === 'filter') {
+        var found = false;
+        for (var b = 0; b < buttons.length; b++) {
+          var dt = buttons[b].getAttribute('data-tag') || '';
+          if (dt.toLowerCase() === val.toLowerCase()) {
+            currentTag = dt;
+            setActiveButton(buttons[b]);
+            found = true;
+            break;
+          }
+        }
+        if (!found && buttons.length) {
+          currentTag = 'all';
+          setActiveButton(buttons[0]);
+        }
+      }
+      if (key === 'q' && searchInput) {
+        currentSearch = val;
+        searchInput.value = val;
       }
     }
-    // If no matching button found, fall back to showing all.
-    applyFilter('all');
   }
 
-  // ── Attach event listeners ──────────────────────────────────────────────
+  function onButtonClick(event) {
+    var btn = /** @type {HTMLButtonElement} */ (event.currentTarget);
+    currentTag = btn.getAttribute('data-tag') || 'all';
+    setActiveButton(btn);
+    applyFilters();
+  }
+
+  function onSearchInput() {
+    if (searchTimer) clearTimeout(searchTimer);
+    searchTimer = window.setTimeout(function () {
+      currentSearch = searchInput ? searchInput.value : '';
+      applyFilters();
+    }, 160);
+  }
+
+  function onSearchKeydown(event) {
+    if (event.key === 'Escape' && searchInput) {
+      searchInput.value = '';
+      currentSearch = '';
+      applyFilters();
+      searchInput.focus();
+    }
+  }
+
+  /* ---- Back to top ---- */
+  function initBackToTop() {
+    if (!backToTopBtn) return;
+
+    function onScroll() {
+      if (window.scrollY > 420) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    backToTopBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  /* ---- Bind ---- */
   for (var i = 0; i < buttons.length; i++) {
-    buttons[i].setAttribute('aria-pressed', buttons[i].classList.contains('active') ? 'true' : 'false');
+    buttons[i].setAttribute(
+      'aria-pressed',
+      buttons[i].classList.contains('active') ? 'true' : 'false'
+    );
     buttons[i].addEventListener('click', onButtonClick);
   }
 
-  // Support keyboard activation (Enter / Space) for accessibility.
   filterControls.addEventListener('keydown', function (event) {
     if (event.key === 'Enter' || event.key === ' ') {
       var target = /** @type {HTMLElement} */ (event.target);
@@ -190,7 +254,23 @@
     }
   });
 
-  // Restore filter state from URL hash on initial page load.
-  restoreFilterFromHash();
+  if (searchInput) {
+    searchInput.addEventListener('input', onSearchInput);
+    searchInput.addEventListener('keydown', onSearchKeydown);
+  }
 
+  parseHash();
+  applyFilters();
+  initBackToTop();
+
+  window.addEventListener('hashchange', function () {
+    if (!window.location.hash) {
+      currentTag = 'all';
+      currentSearch = '';
+      if (searchInput) searchInput.value = '';
+      if (buttons.length) setActiveButton(buttons[0]);
+    }
+    parseHash();
+    applyFilters();
+  });
 })();

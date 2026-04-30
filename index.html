@@ -4,334 +4,363 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crucible — Inference Foundry Research Journal</title>
-  <meta name="description" content="Low-level ML systems research: kernel profiling, hardware teardowns, and mathematical deconstruction of modern deep learning architectures." />
+  <meta name="description" content="Open research journal for low-level ML systems: kernel profiling, hardware teardowns, and measured analysis of modern deep learning architectures." />
+  <meta name="theme-color" content="#1e3a5f" />
+  <link rel="icon" type="image/jpeg" href="assets/images/inference-foundry-logo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/site.css" />
+  <meta property="og:title" content="Crucible — Inference Foundry" />
+  <meta property="og:description" content="Research journal for instrumented ML systems work: measurements, teardowns, and reproduction notes." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://inference-foundry.github.io/assets/images/inference-foundry-logo.jpg" />
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="index.html" class="site-logo">CRUCIBLE</a>
-    <span class="site-tagline">// Inference Foundry — Low-Level ML Systems Research</span>
-  </div>
-</header>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-current="page">
+        <img class="brand__logo" src="assets/images/inference-foundry-logo.jpg" width="40" height="40" alt="" decoding="async" />
+        <span class="brand__text">
+          <span class="brand__name">Crucible</span>
+          <span class="brand__tag">Inference Foundry · Research journal</span>
+        </span>
+      </a>
+      <nav class="header-links" aria-label="Site">
+        <a href="https://inference-foundry.github.io/">Organization</a>
+        <a href="https://github.com/Inference-Foundry/Crucible">GitHub</a>
+        <a href="https://github.com/Inference-Foundry/Crucible/blob/main/CONTENT_GUIDE.md">Content guide</a>
+        <a class="btn-nav" href="https://discord.gg/inference-foundry" target="_blank" rel="noopener noreferrer">Discord</a>
+      </nav>
+    </div>
+  </header>
 
-<main>
-
-  <!-- ═══════════════════════════════════════ HERO ══════════════════════════════════════ -->
-  <section class="hero">
-    <div class="hero-inner">
-      <p class="hero-lead">
-        We instrument real silicon.<br />
-        We measure memory bandwidth.<br />
-        We expose the bottlenecks that determine inference cost.
-      </p>
-      <p class="hero-sub">
-        No opinions. No benchmarks from a single configuration. No unverified claims.<br />
-        Every article contains measured VRAM profiles, TTFT regressions, and <code>ncu</code>-sourced roofline data.
-      </p>
-      <div class="hero-stats">
-        <div class="stat-block">
-          <span class="stat-num">2</span>
-          <span class="stat-label">Active Teardowns</span>
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-inner">
+        <div class="hero-visual">
+          <div class="hero-logo-card">
+            <img src="assets/images/inference-foundry-logo.jpg" width="220" height="120" alt="Inference Foundry logo" decoding="async" />
+          </div>
         </div>
-        <div class="stat-block">
-          <span class="stat-num">6</span>
-          <span class="stat-label">Queued Papers</span>
-        </div>
-        <div class="stat-block">
-          <span class="stat-num">0</span>
-          <span class="stat-label">Unverified Claims</span>
+        <div class="hero-copy">
+          <h1 class="hero-lead" id="hero-heading">Instrumented research, published honestly</h1>
+          <p class="hero-sub">
+            Crucible is Inference Foundry’s open journal for work that pairs mathematical clarity with real hardware: profiling methodology, environment specs, and reproducible procedures—no filler benchmarks.
+          </p>
+          <div class="hero-stats" role="list">
+            <div class="stat-block" role="listitem">
+              <span class="stat-num" aria-hidden="true">2</span>
+              <span class="stat-label">Active teardowns</span>
+            </div>
+            <div class="stat-block" role="listitem">
+              <span class="stat-num" aria-hidden="true">6</span>
+              <span class="stat-label">Queued studies</span>
+            </div>
+            <div class="stat-block" role="listitem">
+              <span class="stat-num" aria-hidden="true">0</span>
+              <span class="stat-label">Paywalled articles</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ═══════════════════════════════ FILTER BAR ════════════════════════════════════════ -->
-  <section class="filter-bar-section">
-    <div class="filter-bar-inner">
-      <span class="filter-label">FILTER BY TAG:</span>
-      <div class="filter-controls" id="filter-controls">
-        <button class="filter-btn active" data-tag="all">ALL</button>
-        <button class="filter-btn" data-tag="LLM">LLM</button>
-        <button class="filter-btn" data-tag="Vision">VISION</button>
-        <button class="filter-btn" data-tag="Hardware-Level">HARDWARE-LEVEL</button>
-        <button class="filter-btn" data-tag="Math">MATH</button>
-        <button class="filter-btn" data-tag="SSM">SSM</button>
-        <button class="filter-btn" data-tag="MoE">MoE</button>
+    <section class="journal-strip" aria-label="Journal standards">
+      <div class="journal-strip__inner">
+        <article>
+          <h3>Evidence first</h3>
+          <p>Claims tie back to commands, hardware, and artifacts—not slides.</p>
+        </article>
+        <article>
+          <h3>Reproducible context</h3>
+          <p>CUDA, driver, and toolkit versions stated wherever measurements appear.</p>
+        </article>
+        <article>
+          <h3>Open repository</h3>
+          <p>Static site, no trackers. Source and template live on GitHub.</p>
+        </article>
       </div>
+    </section>
+
+    <section class="filter-bar-section" aria-labelledby="filter-heading">
+      <h2 id="filter-heading" class="visually-hidden">Filter articles</h2>
+      <div class="filter-bar-inner">
+        <div class="search-row">
+          <label for="article-search">Search titles &amp; abstracts</label>
+          <div class="search-input-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8" />
+              <path d="M21 21l-4.35-4.35" />
+            </svg>
+            <input
+              type="search"
+              id="article-search"
+              placeholder="e.g. FlashAttention, Mamba, KV cache…"
+              autocomplete="off"
+              spellcheck="false"
+              aria-describedby="filter-results-announcement"
+            />
+          </div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label" id="filter-tags-label">Topics</span>
+          <div class="filter-controls" id="filter-controls" role="toolbar" aria-labelledby="filter-tags-label">
+            <button type="button" class="filter-btn active" data-tag="all" aria-pressed="true">All</button>
+            <button type="button" class="filter-btn" data-tag="LLM" aria-pressed="false">LLM</button>
+            <button type="button" class="filter-btn" data-tag="Vision" aria-pressed="false">Vision</button>
+            <button type="button" class="filter-btn" data-tag="Hardware-Level" aria-pressed="false">Hardware</button>
+            <button type="button" class="filter-btn" data-tag="Math" aria-pressed="false">Math</button>
+            <button type="button" class="filter-btn" data-tag="SSM" aria-pressed="false">SSM</button>
+            <button type="button" class="filter-btn" data-tag="MoE" aria-pressed="false">MoE</button>
+          </div>
+        </div>
+        <p class="results-meta" id="filter-results-announcement" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="article-listing">
+      <div class="listing-inner">
+
+        <div class="listing-group">
+          <h2 class="listing-group-title">In progress</h2>
+
+          <article class="article-card status-wip" data-tags="LLM Hardware-Level Math">
+            <div class="card-meta-row">
+              <span class="card-type">Teardown</span>
+              <span class="card-status status-wip-badge">WIP</span>
+              <span class="card-date">2024-08</span>
+            </div>
+            <h3 class="card-title">
+              FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision
+            </h3>
+            <p class="card-citation">
+              Shah et al., “FlashAttention-3,” arXiv:2407.08608, 2024.
+            </p>
+            <p class="card-summary">
+              Kernel-level deconstruction of the warp-specialization and producer/consumer pipeline
+              in CUTLASS 3.x on Hopper SM90a. WGMMA instruction throughput analysis, TMA async
+              copy pipeline overlap, and causal masking HBM access pattern profiling.
+              Preliminary: ~92% of theoretical H100 FLOP/s at N≥4096.
+            </p>
+            <div class="card-hardware">
+              <code>H100 SXM5 · BF16 · CUDA 12.4</code>
+            </div>
+            <div class="card-tags">
+              <span class="tag">LLM</span>
+              <span class="tag">Hardware-Level</span>
+              <span class="tag">Math</span>
+            </div>
+            <div class="card-actions">
+              <span class="card-link-placeholder">Profiling in progress — article not yet published</span>
+            </div>
+          </article>
+
+          <article class="article-card status-wip" data-tags="Vision Math">
+            <div class="card-meta-row">
+              <span class="card-type">Teardown</span>
+              <span class="card-status status-wip-badge">WIP</span>
+              <span class="card-date">2024-10</span>
+            </div>
+            <h3 class="card-title">
+              I-JEPA: Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture
+            </h3>
+            <p class="card-citation">
+              Assran et al., “Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture,”
+              CVPR 2023. arXiv:2301.08243.
+            </p>
+            <p class="card-summary">
+              Latent prediction architecture teardown. Mathematical analysis of the context/target block
+              sampling strategy and its effect on representation collapse. EMA target encoder gradient flow
+              analysis. ViT backbone patch-embedding GEMM vs. attention compute ratio profiling queued
+              for A100 80GB.
+            </p>
+            <div class="card-hardware">
+              <code>A100 80GB · BF16 · CUDA 12.1 (queued)</code>
+            </div>
+            <div class="card-tags">
+              <span class="tag">Vision</span>
+              <span class="tag">Math</span>
+            </div>
+            <div class="card-actions">
+              <span class="card-link-placeholder">Math formalization complete — hardware profiling queued</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="listing-group">
+          <h2 class="listing-group-title">Queued</h2>
+
+          <article class="article-card status-queued" data-tags="LLM SSM Hardware-Level">
+            <div class="card-meta-row">
+              <span class="card-type">Teardown</span>
+              <span class="card-status status-queued-badge">Queued</span>
+              <span class="card-priority">Priority 1</span>
+            </div>
+            <h3 class="card-title">
+              Mamba-2: Transformers are SSMs — State Space Duality and CUDA Kernel Efficiency
+            </h3>
+            <p class="card-citation">
+              Dao &amp; Gu, “Transformers are SSMs,” ICML 2024. arXiv:2405.21060.
+            </p>
+            <p class="card-summary">
+              State space model CUDA kernel efficiency and selective scan throughput analysis.
+              SSD formulation and implications for parallelism across the sequence dimension. Target: A100 80GB.
+            </p>
+            <div class="card-hardware"><code>A100 80GB · pending</code></div>
+            <div class="card-tags">
+              <span class="tag">LLM</span>
+              <span class="tag">SSM</span>
+              <span class="tag">Hardware-Level</span>
+            </div>
+          </article>
+
+          <article class="article-card status-queued" data-tags="LLM Hardware-Level Math">
+            <div class="card-meta-row">
+              <span class="card-type">Teardown</span>
+              <span class="card-status status-queued-badge">Queued</span>
+              <span class="card-priority">Priority 2</span>
+            </div>
+            <h3 class="card-title">
+              DeepSeek-V3: Multi-head Latent Attention and KV-Cache Compression Analysis
+            </h3>
+            <p class="card-citation">
+              DeepSeek-AI, “DeepSeek-V3 Technical Report,” arXiv:2412.19437, 2024.
+            </p>
+            <p class="card-summary">
+              MLA KV-cache compression ratio vs. attention quality degradation. Low-rank projection dimension sweep.
+              Decode throughput vs. cache footprint. Target: H100 NVL.
+            </p>
+            <div class="card-hardware"><code>H100 NVL · pending</code></div>
+            <div class="card-tags">
+              <span class="tag">LLM</span>
+              <span class="tag">Hardware-Level</span>
+              <span class="tag">Math</span>
+            </div>
+          </article>
+
+          <article class="article-card status-queued" data-tags="LLM Hardware-Level">
+            <div class="card-meta-row">
+              <span class="card-type">Benchmark</span>
+              <span class="card-status status-queued-badge">Queued</span>
+              <span class="card-priority">Priority 3</span>
+            </div>
+            <h3 class="card-title">
+              Medusa: Simple LLM Inference Acceleration Framework with Multiple Decoding Heads
+            </h3>
+            <p class="card-citation">
+              Cai et al., “Medusa,” arXiv:2401.10774, 2024.
+            </p>
+            <p class="card-summary">
+              Draft head acceptance rate under temperature variation. Memory overhead of extra heads vs. decode speedup.
+              Tree-attention overhead. Target: A10G.
+            </p>
+            <div class="card-hardware"><code>A10G · pending</code></div>
+            <div class="card-tags">
+              <span class="tag">LLM</span>
+              <span class="tag">Hardware-Level</span>
+            </div>
+          </article>
+
+          <article class="article-card status-queued" data-tags="LLM Math">
+            <div class="card-meta-row">
+              <span class="card-type">Analysis</span>
+              <span class="card-status status-queued-badge">Queued</span>
+              <span class="card-priority">Priority 4</span>
+            </div>
+            <h3 class="card-title">
+              RoPE: Precision Sensitivity in BF16 vs. FP32 at Long Context (128K+ tokens)
+            </h3>
+            <p class="card-citation">
+              Su et al., “RoFormer,” Neurocomputing, 2024. arXiv:2104.09864.
+            </p>
+            <p class="card-summary">
+              Numerical precision of rotary embeddings at extended context. BF16 vs. FP32 angle accumulation error beyond 32K positions.
+            </p>
+            <div class="card-hardware"><code>CPU baseline + CUDA · pending</code></div>
+            <div class="card-tags">
+              <span class="tag">LLM</span>
+              <span class="tag">Math</span>
+            </div>
+          </article>
+
+          <article class="article-card status-queued" data-tags="LLM Hardware-Level">
+            <div class="card-meta-row">
+              <span class="card-type">Benchmark</span>
+              <span class="card-status status-queued-badge">Queued</span>
+              <span class="card-priority">Priority 5</span>
+            </div>
+            <h3 class="card-title">
+              GQA / MQA: KV-Cache VRAM Footprint and Decode Throughput per Byte of KV Memory
+            </h3>
+            <p class="card-citation">
+              Ainslie et al., “GQA,” EMNLP 2023. arXiv:2305.13245.
+            </p>
+            <p class="card-summary">
+              Direct measurement of KV-cache footprint under GQA vs. MHA vs. MQA. Decode throughput per MiB of KV memory.
+              Target: L40S.
+            </p>
+            <div class="card-hardware"><code>L40S · pending</code></div>
+            <div class="card-tags">
+              <span class="tag">LLM</span>
+              <span class="tag">Hardware-Level</span>
+            </div>
+          </article>
+
+          <article class="article-card status-queued" data-tags="LLM MoE Hardware-Level">
+            <div class="card-meta-row">
+              <span class="card-type">Teardown</span>
+              <span class="card-status status-queued-badge">Queued</span>
+              <span class="card-priority">Priority 6</span>
+            </div>
+            <h3 class="card-title">
+              MoE Router Analysis: Expert Load Imbalance and All-to-All Communication Overhead
+            </h3>
+            <p class="card-citation">
+              Shazeer et al., “Outrageously Large Neural Networks,” ICLR 2017. arXiv:1701.06538.
+            </p>
+            <p class="card-summary">
+              Expert load imbalance under top-1 vs. top-2 routing. All-to-all overhead on 8× H100 NVLink. Auxiliary loss sweep.
+            </p>
+            <div class="card-hardware"><code>8× H100 SXM5 NVLink · pending</code></div>
+            <div class="card-tags">
+              <span class="tag">LLM</span>
+              <span class="tag">MoE</span>
+              <span class="tag">Hardware-Level</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="no-results" id="no-results" hidden>
+      <p>No articles match your filters. Try another topic or clear the search box.</p>
     </div>
-  </section>
+  </main>
 
-  <!-- ═══════════════════════════ ARTICLE LISTING ═══════════════════════════════════════ -->
-  <section class="article-listing">
-    <div class="listing-inner">
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>
+        <strong>Crucible</strong> is part of <a href="https://github.com/Inference-Foundry">Inference Foundry</a>.
+        Static HTML/CSS/JS — no third-party analytics on this page.
+      </p>
+      <p>
+        <a href="https://github.com/Inference-Foundry/Crucible/blob/main/CONTENT_GUIDE.md">Content guide</a>
+        · <a href="templates/article-template.html">Article template</a>
+        · <a href="https://github.com/Inference-Foundry/Crucible">View source</a>
+        · <a href="https://inference-foundry.github.io/">Organization site</a>
+      </p>
+    </div>
+  </footer>
 
-      <div class="listing-group">
-        <h2 class="listing-group-title">// ACTIVE — IN PROGRESS</h2>
+  <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </svg>
+  </button>
 
-        <!-- ── Article Card: FlashAttention-3 ── -->
-        <article class="article-card status-wip"
-                 data-tags="LLM Hardware-Level Math">
-          <div class="card-meta-row">
-            <span class="card-type">[TEARDOWN]</span>
-            <span class="card-status status-wip-badge">WIP</span>
-            <span class="card-date">2024-08</span>
-          </div>
-          <h3 class="card-title">
-            FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision
-          </h3>
-          <p class="card-citation">
-            Shah et al., "FlashAttention-3," arXiv:2407.08608, 2024.
-          </p>
-          <p class="card-summary">
-            Kernel-level deconstruction of the warp-specialization and producer/consumer pipeline
-            in CUTLASS 3.x on Hopper SM90a. WGMMA instruction throughput analysis, TMA async
-            copy pipeline overlap, and causal masking HBM access pattern profiling.
-            Preliminary: ~92% of theoretical H100 FLOP/s at N≥4096.
-          </p>
-          <div class="card-hardware">
-            <code>H100 SXM5 · BF16 · CUDA 12.4</code>
-          </div>
-          <div class="card-tags">
-            <span class="tag">LLM</span>
-            <span class="tag">Hardware-Level</span>
-            <span class="tag">Math</span>
-          </div>
-          <div class="card-actions">
-            <span class="card-link-placeholder">[ Profiling in progress — article not yet published ]</span>
-          </div>
-        </article>
-
-        <!-- ── Article Card: I-JEPA ── -->
-        <article class="article-card status-wip"
-                 data-tags="Vision Math">
-          <div class="card-meta-row">
-            <span class="card-type">[TEARDOWN]</span>
-            <span class="card-status status-wip-badge">WIP</span>
-            <span class="card-date">2024-10</span>
-          </div>
-          <h3 class="card-title">
-            I-JEPA: Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture
-          </h3>
-          <p class="card-citation">
-            Assran et al., "Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture,"
-            CVPR 2023. arXiv:2301.08243.
-          </p>
-          <p class="card-summary">
-            Latent prediction architecture teardown. Mathematical analysis of the context/target block
-            sampling strategy and its effect on representation collapse. EMA target encoder gradient flow
-            analysis. ViT backbone patch-embedding GEMM vs. attention compute ratio profiling queued
-            for A100 80GB.
-          </p>
-          <div class="card-hardware">
-            <code>A100 80GB · BF16 · CUDA 12.1 [QUEUED]</code>
-          </div>
-          <div class="card-tags">
-            <span class="tag">Vision</span>
-            <span class="tag">Math</span>
-          </div>
-          <div class="card-actions">
-            <span class="card-link-placeholder">[ Math formalization complete — hardware profiling queued ]</span>
-          </div>
-        </article>
-
-      </div><!-- /.listing-group -->
-
-      <div class="listing-group">
-        <h2 class="listing-group-title">// QUEUED — PENDING PROFILING SLOT</h2>
-
-        <!-- ── Queued: Mamba-2 ── -->
-        <article class="article-card status-queued"
-                 data-tags="LLM SSM Hardware-Level">
-          <div class="card-meta-row">
-            <span class="card-type">[TEARDOWN]</span>
-            <span class="card-status status-queued-badge">QUEUED</span>
-            <span class="card-priority">Priority: 1</span>
-          </div>
-          <h3 class="card-title">
-            Mamba-2: Transformers are SSMs — State Space Duality and CUDA Kernel Efficiency
-          </h3>
-          <p class="card-citation">
-            Dao &amp; Gu, "Transformers are SSMs: Generalized Models and Efficient Algorithms
-            Through Structured State Space Duality," ICML 2024. arXiv:2405.21060.
-          </p>
-          <p class="card-summary">
-            State space model CUDA kernel efficiency and selective scan throughput analysis.
-            SSD (State Space Duality) formulation and its implications for parallelism across
-            the sequence dimension. Target: A100 80GB.
-          </p>
-          <div class="card-hardware"><code>A100 80GB · [PENDING]</code></div>
-          <div class="card-tags">
-            <span class="tag">LLM</span>
-            <span class="tag">SSM</span>
-            <span class="tag">Hardware-Level</span>
-          </div>
-        </article>
-
-        <!-- ── Queued: DeepSeek-V3 MLA ── -->
-        <article class="article-card status-queued"
-                 data-tags="LLM Hardware-Level Math">
-          <div class="card-meta-row">
-            <span class="card-type">[TEARDOWN]</span>
-            <span class="card-status status-queued-badge">QUEUED</span>
-            <span class="card-priority">Priority: 2</span>
-          </div>
-          <h3 class="card-title">
-            DeepSeek-V3: Multi-head Latent Attention and KV-Cache Compression Analysis
-          </h3>
-          <p class="card-citation">
-            DeepSeek-AI, "DeepSeek-V3 Technical Report," arXiv:2412.19437, 2024.
-          </p>
-          <p class="card-summary">
-            MLA (Multi-head Latent Attention) KV-cache compression ratio vs. attention quality
-            degradation curve. Low-rank projection dimension sweep. Decode throughput vs. cache
-            footprint tradeoff analysis. Target: H100 NVL.
-          </p>
-          <div class="card-hardware"><code>H100 NVL · [PENDING]</code></div>
-          <div class="card-tags">
-            <span class="tag">LLM</span>
-            <span class="tag">Hardware-Level</span>
-            <span class="tag">Math</span>
-          </div>
-        </article>
-
-        <!-- ── Queued: Medusa ── -->
-        <article class="article-card status-queued"
-                 data-tags="LLM Hardware-Level">
-          <div class="card-meta-row">
-            <span class="card-type">[BENCHMARK]</span>
-            <span class="card-status status-queued-badge">QUEUED</span>
-            <span class="card-priority">Priority: 3</span>
-          </div>
-          <h3 class="card-title">
-            Medusa: Simple LLM Inference Acceleration Framework with Multiple Decoding Heads
-          </h3>
-          <p class="card-citation">
-            Cai et al., "Medusa: Simple LLM Inference Acceleration Framework with
-            Multiple Decoding Heads," arXiv:2401.10774, 2024.
-          </p>
-          <p class="card-summary">
-            Draft head acceptance rate analysis under temperature variation. Memory overhead
-            of additional head parameters vs. decode speedup. Tree-attention overhead profiling.
-            Target: A10G.
-          </p>
-          <div class="card-hardware"><code>A10G · [PENDING]</code></div>
-          <div class="card-tags">
-            <span class="tag">LLM</span>
-            <span class="tag">Hardware-Level</span>
-          </div>
-        </article>
-
-        <!-- ── Queued: RoPE ── -->
-        <article class="article-card status-queued"
-                 data-tags="LLM Math">
-          <div class="card-meta-row">
-            <span class="card-type">[ANALYSIS]</span>
-            <span class="card-status status-queued-badge">QUEUED</span>
-            <span class="card-priority">Priority: 4</span>
-          </div>
-          <h3 class="card-title">
-            RoPE: Precision Sensitivity in BF16 vs. FP32 at Long Context (128K+ tokens)
-          </h3>
-          <p class="card-citation">
-            Su et al., "RoFormer: Enhanced Transformer with Rotary Position Embedding,"
-            Neurocomputing, 2024. arXiv:2104.09864.
-          </p>
-          <p class="card-summary">
-            Numerical precision analysis of rotary positional embeddings at extended context windows.
-            BF16 vs. FP32 angle accumulation error at positions &gt;32K. Frequency basis sensitivity.
-            CPU baseline + CUDA comparison.
-          </p>
-          <div class="card-hardware"><code>CPU baseline + CUDA · [PENDING]</code></div>
-          <div class="card-tags">
-            <span class="tag">LLM</span>
-            <span class="tag">Math</span>
-          </div>
-        </article>
-
-        <!-- ── Queued: GQA/MQA ── -->
-        <article class="article-card status-queued"
-                 data-tags="LLM Hardware-Level">
-          <div class="card-meta-row">
-            <span class="card-type">[BENCHMARK]</span>
-            <span class="card-status status-queued-badge">QUEUED</span>
-            <span class="card-priority">Priority: 5</span>
-          </div>
-          <h3 class="card-title">
-            GQA / MQA: KV-Cache VRAM Footprint and Decode Throughput per Byte of KV Memory
-          </h3>
-          <p class="card-citation">
-            Ainslie et al., "GQA: Training Generalized Multi-Query Transformer Models
-            from Multi-Head Checkpoints," EMNLP 2023. arXiv:2305.13245.
-          </p>
-          <p class="card-summary">
-            Direct measurement of KV-cache VRAM footprint under GQA vs. MHA vs. MQA.
-            Decode throughput (tokens/sec) per MiB of KV memory. Head group count sweep
-            across 1, 2, 4, 8 groups. Target: L40S.
-          </p>
-          <div class="card-hardware"><code>L40S · [PENDING]</code></div>
-          <div class="card-tags">
-            <span class="tag">LLM</span>
-            <span class="tag">Hardware-Level</span>
-          </div>
-        </article>
-
-        <!-- ── Queued: MoE Router ── -->
-        <article class="article-card status-queued"
-                 data-tags="LLM MoE Hardware-Level">
-          <div class="card-meta-row">
-            <span class="card-type">[TEARDOWN]</span>
-            <span class="card-status status-queued-badge">QUEUED</span>
-            <span class="card-priority">Priority: 6</span>
-          </div>
-          <h3 class="card-title">
-            MoE Router Analysis: Expert Load Imbalance and All-to-All Communication Overhead
-          </h3>
-          <p class="card-citation">
-            Shazeer et al., "Outrageously Large Neural Networks: The Sparsely-Gated
-            Mixture-of-Experts Layer," ICLR 2017. arXiv:1701.06538.
-            (Implementation focus: DeepSpeed-MoE / Megatron-LM)
-          </p>
-          <p class="card-summary">
-            Expert load imbalance under top-1 vs. top-2 routing. All-to-all communication
-            overhead profiling on 8× H100 NVLink fabric. Auxiliary loss coefficient sweep
-            and its effect on routing entropy vs. downstream loss.
-          </p>
-          <div class="card-hardware"><code>8× H100 SXM5 NVLink · [PENDING]</code></div>
-          <div class="card-tags">
-            <span class="tag">LLM</span>
-            <span class="tag">MoE</span>
-            <span class="tag">Hardware-Level</span>
-          </div>
-        </article>
-
-      </div><!-- /.listing-group -->
-
-    </div><!-- /.listing-inner -->
-  </section>
-
-  <!-- ═══════════════════════════ NO RESULTS MESSAGE ════════════════════════════════════ -->
-  <div class="no-results" id="no-results" hidden>
-    <p>No articles match the selected tag.</p>
-  </div>
-
-</main>
-
-<footer class="site-footer">
-  <div class="footer-inner">
-    <p>
-      <strong>Crucible</strong> — Inference Foundry Research Journal.<br />
-      Zero-dependency static site. No trackers. No cookies. No JavaScript frameworks.
-    </p>
-    <p>
-      <a href="https://github.com/Inference-Foundry/Crucible/blob/main/CONTENT_GUIDE.md">Content Guide</a> ·
-      <a href="templates/article-template.html">Article Template</a> ·
-      <a href="https://github.com/Inference-Foundry/Crucible">GitHub</a>
-    </p>
-  </div>
-</footer>
-
-<script src="js/content-filter.js"></script>
+  <script src="js/content-filter.js"></script>
 </body>
 </html>
